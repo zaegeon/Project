@@ -47,8 +47,7 @@ def plot_cluster(arr):
     plt.show()
 
 plot_cluster(img_lst)
-
-##########################################################################
+###############################################
 
 os.chdir('C:/Users/itwill/Desktop/apple')
 path = "./"
@@ -59,13 +58,14 @@ for file in file_lst:
     apple_lst.append(plt.imread(file))
 
 X = np.array(apple_lst.copy())
+X_sc = X / 255
 y = np.concatenate([np.zeros(500), np.ones(500)])
 print(np.unique(y, return_counts=True))
 
 plot_cluster(X[0:100]) # 시각화
 
 from sklearn.model_selection import train_test_split
-X_tr, X_te, y_tr, y_te = train_test_split(X,y, test_size=0.2, stratify=y)
+X_tr, X_te, y_tr, y_te = train_test_split(X_sc,y, test_size=0.2, stratify=y)
 
 print(X_tr.shape, X_te.shape)
 print(y_tr.shape, y_te.shape)
@@ -84,3 +84,24 @@ knn=KNeighborsClassifier(n_jobs=-1)
 knn.fit(X_tr, y_tr)
 
 print(knn.score(X_tr, y_tr))
+
+tr_pred = knn.predict(X_tr)
+
+X_wrong = X_tr[tr_pred != y_tr]
+print(X_wrong.shape)
+
+y_wrong = y_tr[tr_pred != y_tr]
+print(y_wrong.shape)
+
+wrong_pred = tr_pred[y_tr != tr_pred]
+
+fig, ax = plt.subplots(10, 10, figsize = (10, 10))
+
+for i in range(10):     # subplot의 row index를 0~9까지 반복
+    for j in range(10): # subplot의 column index를 0~9까지 반복
+        img = X_wrong[i * 10 + j].reshape((256, 256, 3))
+        ax[i, j].imshow(img, cmap='binary')
+        ax[i, j].axis('off')
+        ax[i, j].set_title(f'{y_wrong[i * 10 + j]} / {wrong_pred[i * 10 + j]}') # 실젯값 / 틀린 예측값
+
+plt.show()
