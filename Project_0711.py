@@ -48,3 +48,39 @@ def plot_cluster(arr):
 
 plot_cluster(img_lst)
 
+##########################################################################
+
+os.chdir('C:/Users/itwill/Desktop/apple')
+path = "./"
+file_lst = os.listdir(path)
+
+apple_lst = []
+for file in file_lst:
+    apple_lst.append(plt.imread(file))
+
+X = np.array(apple_lst.copy())
+y = np.concatenate([np.zeros(500), np.ones(500)])
+print(np.unique(y, return_counts=True))
+
+plot_cluster(X[0:100]) # 시각화
+
+from sklearn.model_selection import train_test_split
+X_tr, X_te, y_tr, y_te = train_test_split(X,y, test_size=0.2, stratify=y)
+
+print(X_tr.shape, X_te.shape)
+print(y_tr.shape, y_te.shape)
+
+X_tr = X_tr.reshape((800, -1))
+X_te = X_te.reshape((800, -1))
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression, SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+
+knn=KNeighborsClassifier(n_jobs=-1)
+knn.fit(X_tr, y_tr)
+
+print(knn.score(X_tr, y_tr))
