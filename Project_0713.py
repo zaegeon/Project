@@ -149,12 +149,24 @@ apple_val_lst = []
 for file in file_lst2:
     apple_val_lst.append(plt.imread(file))
 
+size_lst = []
+for file in file_lst2:
+    size_lst.append(plt.imread(file).shape)
+
+from collections import Counter
+cnt = Counter(size_lst)
+print(cnt)
+
+len(size_lst)
+
 # X, y
 X_val = np.array(apple_val_lst.copy())
-X_val = X_val / 255 # Scaling
-y_val = np.concatenate([np.zeros(100), np.ones(100)])
+X_val_sc = X_val / 255 # Scaling
+y_val = np.concatenate([np.zeros(86), np.ones(99)])
 print(np.unique(y_val, return_counts=True))
 
-sgd.fit(X_val, y_val)
-val_pred = sgd.predict(X_val)
-sgd.score(X_val, y_val)
+# print(X_val_sc.shape)
+X_val_sc = X_val_sc.reshape(185, -1)
+val_pred = sgd.predict(X_val_sc)
+
+print(np.mean(y_val == val_pred))]
