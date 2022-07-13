@@ -169,4 +169,4 @@ print(np.unique(y_val, return_counts=True))
 X_val_sc = X_val_sc.reshape(185, -1)
 val_pred = sgd.predict(X_val_sc)
 
-print(np.mean(y_val == val_pred))]
+print(np.mean(y_val == val_pred))] # 0.87
