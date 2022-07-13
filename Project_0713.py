@@ -149,15 +149,15 @@ apple_val_lst = []
 for file in file_lst2:
     apple_val_lst.append(plt.imread(file))
 
-size_lst = []
-for file in file_lst2:
-    size_lst.append(plt.imread(file).shape)
+# size_lst = []
+# for file in file_lst2:
+#     size_lst.append(plt.imread(file).shape)
 
-from collections import Counter
-cnt = Counter(size_lst)
-print(cnt)
+# from collections import Counter
+# cnt = Counter(size_lst)
+# print(cnt)
 
-len(size_lst)
+# len(size_lst)
 
 # X, y
 X_val = np.array(apple_val_lst.copy())
